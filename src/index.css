@@ -256,6 +256,21 @@
   .btn-modal-cancel:disabled {
     @apply opacity-50 hover:bg-white hover:text-dark hover:border-gray-300;
   }
+  .nav-link {
+    @apply relative block px-4 py-2 text-white/95 transition-colors duration-150 hover:bg-white/8;
+  }
+  .nav-link-active {
+    @apply text-white;
+  }
+  .nav-sublink {
+    @apply relative block w-full py-1.5 pl-11 pr-4 text-[1.05rem] text-white/95 transition-colors duration-150 hover:bg-white/8 hover:text-white;
+  }
+  .nav-sublink-active {
+    @apply text-white;
+  }
+  .nav-sublink-active::before {
+    @apply content-[''] absolute left-8 top-1/2 h-7 w-[3px] -translate-y-1/2 rounded-full bg-accent-light;
+  }
   .modal-body {
     @apply h-[calc(100dvh-50px)];
   }
@@ -274,6 +289,18 @@
   }
   .modal-container {
     @apply mt-3;
+  }
+  .users-table table {
+    @apply overflow-hidden rounded-xl;
+  }
+  .users-table table thead th:first-child {
+    @apply rounded-tl-xl;
+  }
+  .users-table table thead th:last-child {
+    @apply rounded-tr-xl;
+  }
+  .users-table table tr:hover {
+    @apply bg-blue-50/40;
   }
   .header {
     @apply fixed w-full py-3 md:py-4 bg-gradient-to-b from-black/80 to-black/60 backdrop-blur-md z-50 isolate;

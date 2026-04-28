@@ -1,16 +1,16 @@
 import React from "react";
 import { FaArrowLeft } from "react-icons/fa";
+import { BiLeftIndent } from "react-icons/bi";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { setIsSearch } from "../../store/StoreAction";
-import { StoreContext } from "../../store/StoreContext";
-import { getUserType } from "../helpers/functions-general";
+import { setIsSearch } from "../store/StoreAction";
+import { StoreContext } from "../store/StoreContext";
+import { devNavUrl, urlDeveloper } from "../functions/functions-general";
 
-const BreadCrumbs = ({ param = "" }) => {
-  const { store, dispatch } = React.useContext(StoreContext);
+const BreadCrumbs = ({ param = "", parentPath = "" }) => {
+  const { dispatch } = React.useContext(StoreContext);
   const location = useLocation();
   const navigate = useNavigate();
-  const link = getUserType();
-  let currentLink = "";
+  const link = `${devNavUrl}/${urlDeveloper}`;
 
   const handleClick = () => {
     sessionStorage.removeItem("resultItem");
@@ -25,62 +25,61 @@ const BreadCrumbs = ({ param = "" }) => {
     .replace(`${link}`, "")
     .split("/")
     .filter((crumb) => crumb !== "")
-    .map((crumb, key) => {
-      currentLink += `/${crumb}`;
+    .map((crumb, index, arr) => {
+      const href = `${link}/${arr.slice(0, index + 1).join("/")}`;
+      const label = (index === arr.length - 1 && param ? param : crumb)
+        .replaceAll("-ftw", " ")
+        .replaceAll("-ue", " ")
+        .replaceAll("ftw-", " ")
+        .replaceAll("-", " ")
+        .replaceAll("daily time record entries", "time entries");
+      const isLast = index === arr.length - 1;
+
       return (
-        crumb !== "settings" &&
-        crumb !== "ftw" &&
-        crumb !== "ue" &&
-        crumb !== "payroll" && (
-          <li
-            className={` text-primary after:mr-2 after:content-['>'] last:after:hidden last:text-dark last:pointer-events-none ${
-              (crumb === "settings" || crumb === "payroll") &&
-              "!pointer-events-none"
-            } `}
-            key={key}
-            onClick={handleClick}
-          >
+        <li
+          className="flex items-center text-sm"
+          key={`${crumb}-${index}`}
+          onClick={!isLast ? handleClick : undefined}
+        >
+          {isLast ? (
+            <span className="capitalize text-dark">{label}</span>
+          ) : (
             <Link
-              to={
-                crumb === "settings" ||
-                crumb === "payroll" ||
-                crumb === "ftw" ||
-                crumb === "ue"
-                  ? ""
-                  : crumb === "employees" || crumb === "my-info"
-                    ? `${link}${currentLink}`
-                    : `${link}${currentLink}${param}`
-              }
-              className="mr-2 font-medium hover:text-primary capitalize"
+              to={href}
+              className="capitalize text-primary hover:text-dark transition-colors"
             >
-              {crumb
-                .replaceAll("-ftw", " ")
-                .replaceAll("-ue", " ")
-                .replaceAll("ftw-", " ")
-                .replaceAll("-", " ")
-                .replaceAll("daily time record entries", "time entries")}
+              {label}
             </Link>
-          </li>
-        )
+          )}
+          {!isLast && <span className="mx-3 text-gray-400">{">"}</span>}
+        </li>
       );
     });
 
   return (
-    <>
-      <div className="mt-1 mb-1 flex items-center gap-5 breadcrumbs ml-8">
-        <ul
-          className="print:hidden my-2 flex items-center cursor-pointer pl-1 lg:pl-0"
-          onClick={() => navigate(-1)}
-          title="Back"
+    <div className="flex items-center gap-6">
+      {parentPath && (
+        <button
+          type="button"
+          className="print:hidden flex items-center text-dark hover:text-primary transition-colors"
+          onClick={() => navigate(parentPath)}
+          title="Users"
         >
-          <FaArrowLeft className="h-5 w-5 lg:h-4 lg:w-4" />
-        </ul>
+          <BiLeftIndent className="h-5 w-5" />
+        </button>
+      )}
 
-        <ul className="items-center xs:flex hidden  cursor-pointer text-[10px]">
-          {crumbs.length === 1 ? "" : crumbs}
-        </ul>
-      </div>
-    </>
+      <button
+        type="button"
+        className="print:hidden flex items-center text-dark hover:text-primary transition-colors"
+        onClick={() => navigate(-1)}
+        title="Back"
+      >
+        <FaArrowLeft className="h-5 w-5" />
+      </button>
+
+      <ul className="flex items-center text-xs">{crumbs}</ul>
+    </div>
   );
 };
 

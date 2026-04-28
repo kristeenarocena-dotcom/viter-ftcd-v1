@@ -1,34 +1,48 @@
-import React, { useState } from "react";
+import React from "react";
 import { FaChevronDown } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 
 const NavigationAccordions = ({ subNavList = [], item }) => {
-  const [isOpen, setIsOpen] = React.useState(false);
-  useState(false);
+  const { pathname } = useLocation();
+  const hasActiveSubmenu = subNavList.some((subItem) => pathname === subItem.path);
+  const [isOpen, setIsOpen] = React.useState(hasActiveSubmenu);
+
+  React.useEffect(() => {
+    if (hasActiveSubmenu) {
+      setIsOpen(true);
+    }
+  }, [hasActiveSubmenu]);
+
   return (
     <>
       <button
-        className="w-full px-4 py-1 hover:bg-gray-50/10 flex item-center justify-between gap-2"
+        className={`nav-link w-full flex items-center justify-between gap-2 ${
+          hasActiveSubmenu ? "nav-link-active" : ""
+        }`}
         onClick={() => setIsOpen(!isOpen)}
       >
         <div className="flex items-center gap-2">
           {item.icon}
           {item.label}
         </div>
-        <FaChevronDown />
+        <FaChevronDown
+          className={`transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
+        />
       </button>
 
       {isOpen && (
-        <ul className="self-start w-full">
+        <ul className="self-start w-full pt-1 pb-2">
           {subNavList.map((item, key) => {
             return (
               <li key={key} className="w-full">
-                <Link
+                <NavLink
                   to={item.path}
-                  className="block pl-10 w-full hover:bg-gray-50/10"
+                  className={({ isActive }) =>
+                    `nav-sublink block w-full ${isActive ? "nav-sublink-active" : ""}`
+                  }
                 >
                   {item.label}
-                </Link>
+                </NavLink>
               </li>
             );
           })}

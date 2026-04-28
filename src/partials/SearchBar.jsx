@@ -12,6 +12,7 @@ const SearchBar = ({
   isFilter = false,
   label = "Search here...",
   className = "",
+  variant = "default",
 }) => {
   const handleChange = (e) => {
     if (e.target.value === "") {
@@ -46,19 +47,39 @@ const SearchBar = ({
       className="search-box"
     >
       <div className={`${className} items-center relative`}>
-        <span
-          type="submit"
-          className="absolute left-2 top-1.5 text-sm h-9 py-[3px] rounded-tr-none rounded-br-none border-l-0 text-gray-400 cursor-default "
-        >
-          <FaSearch />
-        </span>
-        <input
-          type="search"
-          placeholder={label}
-          className="text-xs h-8 pl-7"
-          ref={search}
-          onChange={(e) => handleChange(e)}
-        />
+        {variant === "users" ? (
+          <>
+            <input
+              type="search"
+              placeholder={label}
+              className="text-xs h-8 pl-3 pr-12 rounded-md"
+              ref={search}
+              onChange={(e) => handleChange(e)}
+            />
+            <button
+              type="submit"
+              className="absolute right-0 top-0 flex h-8 w-10 items-center justify-center rounded-r-md bg-primary text-white"
+            >
+              <FaSearch />
+            </button>
+          </>
+        ) : (
+          <>
+            <span
+              type="submit"
+              className="absolute left-2 top-1.5 text-sm h-9 py-[3px] rounded-tr-none rounded-br-none border-l-0 text-gray-400 cursor-default "
+            >
+              <FaSearch />
+            </span>
+            <input
+              type="search"
+              placeholder={label}
+              className="text-xs h-8 pl-7"
+              ref={search}
+              onChange={(e) => handleChange(e)}
+            />
+          </>
+        )}
       </div>
     </form>
   );

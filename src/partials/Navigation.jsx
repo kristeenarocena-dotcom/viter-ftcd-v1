@@ -1,22 +1,6 @@
 import React from "react";
 import { StoreContext } from "../store/StoreContext";
-import { Link } from "react-router-dom";
-import { MdDashboard, MdTimer } from "react-icons/md";
-import {
-  FaBook,
-  FaBusinessTime,
-  FaCalendarAlt,
-  FaChevronDown,
-  FaClipboardCheck,
-  FaNewspaper,
-  FaUsers,
-} from "react-icons/fa";
-import { BsFillCalendarEventFill } from "react-icons/bs";
-import { PiCaretDown } from "react-icons/pi";
-import { FaBuildingUser } from "react-icons/fa6";
-import { HiSpeakerphone } from "react-icons/hi";
-import { GiPayMoney } from "react-icons/gi";
-import { devNavUrl } from "../functions/functions-general";
+import { NavLink } from "react-router-dom";
 import NavigationAccordions from "./NavigationAccordions";
 
 const Navigation = ({ navigationList = [], menu = "", submenu = "" }) => {
@@ -51,14 +35,16 @@ const Navigation = ({ navigationList = [], menu = "", submenu = "" }) => {
                         item={item}
                       />
                     ) : (
-                      <Link
+                      <NavLink
                         to={item.path}
-                        className="w-full px-4 py-1 hover:bg-gray-50/10"
+                        className={({ isActive }) =>
+                          `nav-link w-full ${isActive ? "nav-link-active" : ""}`
+                        }
                       >
                         <div className="flex items-center gap-2">
                           {item.icon} {item.label}
                         </div>
-                      </Link>
+                      </NavLink>
                     )}
                   </li>
                 );
