@@ -6,6 +6,7 @@ import SystemUsers from "../pages/developer/settings/users/SystemUsers";
 import OtherUsers from "../pages/developer/settings/users/OtherUsers";
 import Roles from "../pages/developer/settings/users/Roles";
 import Category from "../pages/developer/settings/category/Category";
+import Designation from "../pages/developer/settings/designation/Designation";
 import Notification from "../pages/developer/settings/notification/Notification";
 
 export const routesDeveloper = [
@@ -45,6 +46,11 @@ export const routesDeveloper = [
   {
     path: `${devNavUrl}/${urlDeveloper}/settings/category`,
     element: <Category />,
+  },
+  // Settings - Designation
+  {
+    path: `${devNavUrl}/${urlDeveloper}/settings/designation`,
+    element: <Designation />,
   },
   // Settings - Notification
   {
