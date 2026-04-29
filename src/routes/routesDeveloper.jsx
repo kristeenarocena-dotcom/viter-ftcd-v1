@@ -6,6 +6,7 @@ import SystemUsers from "../pages/developer/settings/users/SystemUsers";
 import OtherUsers from "../pages/developer/settings/users/OtherUsers";
 import Roles from "../pages/developer/settings/users/Roles";
 import Category from "../pages/developer/settings/category/Category";
+import Notification from "../pages/developer/settings/notification/Notification";
 
 export const routesDeveloper = [
   // Default — redirect to donors
@@ -44,5 +45,10 @@ export const routesDeveloper = [
   {
     path: `${devNavUrl}/${urlDeveloper}/settings/category`,
     element: <Category />,
+  },
+  // Settings - Notification
+  {
+    path: `${devNavUrl}/${urlDeveloper}/settings/notification`,
+    element: <Notification />,
   },
 ];
